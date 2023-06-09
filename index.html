@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+        integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body id="body">
+    <div>
+        <div id="set">
+            <h1>
+                Select the Password Type you want to generate:
+            </h1>
+            <div id="ques">
+                <!-- Rounded switch -->
+                <p> Random Password Generator ? <input type="checkbox" id="myCheck1" onclick="myFunction1()"></p>
+                <p>Custom Password Generator ? <input type="checkbox" id="myCheck2" onclick="myFunction2()"></p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div id="sett" class="order-1">
+            <p>
+                <b>Random or Custom,</b> <br>
+                <i>any type of password </i><br>
+                <i> can be Generated on</i> <b>Single Click</b>. <br>
+            </p>
+        </div>
+        <!-- Random Password generator -->
+        <div id="set1" class="order-2">
+            <h1>Random Password Generator</h1>
+            <div> <input type="text" name="" placeholder="Create password" id="password" readonly>
+                <p>Select Password Strength:
+                <input type="range" min="1" max="40" value="8" class="slider" id="myRange"></p>
+                <table>
+                    <tr>
+                        <td><span id="optionHead"><input type="checkbox" name="Upper Case Charecters" id="uc"> Upper
+                                Case</span></td>
+                        <td><span id="optionHead"><input type="checkbox" name="Lower Case Charecters" id="lc"> Lower
+                                Case</span></td>
+                    </tr>
+                    <tr>
+                        <td><span id="optionHead"><input type="checkbox" name="Numeric Charecters" id="numc">
+                                Numeric</span></td>
+                        <td><span id="optionHead"><input type="checkbox" name="Special Charecters" id="splc"> Special
+                                Charecters</span></td>
+                    </tr>
+                </table>
+                <table>
+                    <th>
+                        <div id="button" class="btn1" onclick="genPassword()">Generate</div>
+                    </th>
+                    <th><a id="button" class="btn2" onclick="copyPassword()">Copy</a></th>
+                </table>
+            </div>
+        </div>
+        <!-- Custome word Password generator -->
+        <div id="set2" class="order-2">
+            <h1>Custom Password Generator</h1>
+            <div>
+                <input type="text" name="Custom Word" id="customWord" placeholder="your Word for Password ?"> <br>
+                <input type="text" name="Custom Word" id="customPassword" placeholder="Created Password." readonly>
+                <table>
+                    <th>
+                        <div id="button" class="btn1" onclick="genCustomPassword()">Generate</div>
+                    </th>
+                    <th><a id="button" class="btn2" onclick="copyCustomPassword()">copy</a></th>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        //show and hide
+        function myFunction1() {
+            // Get the checkbox
+            var checkBox = document.getElementById("myCheck1");
+            document.getElementById("myCheck2").checked = false;
+            customWord.value ="";
+            var customPassword = document.getElementById("customPassword");
+            customPassword.value="";
+            set2.style.display = "none";
+            // Get the output text
+            // If the checkbox is checked, display the output text
+            if (checkBox.checked == true) {
+                set1.style.display = "block";
+                document.getElementById("body").style.backgroundImage = "url(twoo.jpg)";
+            } else {
+                set1.style.display = "none";
+                document.getElementById("body").style.backgroundImage = "url(onee.jpg)";
+
+            }
+        }
+        function myFunction2() {
+            // Get the checkbox
+            var checkBox = document.getElementById("myCheck2");
+            document.getElementById("myCheck1").checked = false;
+            set1.style.display = "none";
+            // Get the output text
+            // If the checkbox is checked, display the output text
+            if (checkBox.checked == true) {
+                set2.style.display = "block";
+                password.value ="";
+                document.getElementById("body").style.backgroundImage = "url(twoo.jpg)"
+            } else {
+                set2.style.display = "none";
+                document.getElementById("body").style.backgroundImage = "url(onee.jpg)";
+            }
+        }
+        //generate password
+        var password = document.getElementById("password");
+        var slider = document.getElementById("myRange");
+        var output = slider.value;
+        slider.oninput = function () {
+            output = this.value;
+            document.getElementById("password").value = output;
+        }
+        var chars = "";
+        function genPassword() {
+            document.getElementById("body").style.backgroundImage = "url(twoo.jpg)"
+            var uc = document.getElementById("uc");
+            var lc = document.getElementById("lc");
+            var numc = document.getElementById("numc");
+            var splc = document.getElementById("splc");
+            if (uc.checked) {
+                var capitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            } else {
+                var capitals = "";
+            }
+            if (lc.checked) {
+                var nonCapitals = "abcdefghijklmnopqrstuvwxyz";
+
+            } else {
+                var nonCapitals = "";
+            }
+            if (numc.checked) {
+                var numbers = "0123456789";
+            } else {
+                var numbers = "";
+            }
+            if (splc.checked) {
+                var special = "!@#$%^&*";
+            } else {
+                var special = "";
+            }
+            chars = capitals+nonCapitals+numbers+special;
+            if (!uc.checked && !lc.checked && !numc.checked && !splc.checked) {
+                chars = "CAPnon123!@#";
+            }
+            console.log(chars);
+            var passwordLength = output;
+            var password = "";
+            for (var i = 0; i < passwordLength; i++) {
+                var randomNumber = Math.floor(Math.random() * chars.length);
+                password = password + chars.substring(randomNumber, randomNumber + 1);
+            }
+            document.getElementById("password").value = password;
+        }
+        // copy password
+        function copyPassword() {
+            var copyText = document.getElementById("password");
+            copyText.select();
+            copyText.setSelectionRange(0, 999);
+            document.execCommand("copy");
+            document.getElementById("password").value = "";
+            document.getElementById("body").style.backgroundImage = "url(threee.jpg)";
+        }
+
+        // generate custom password | password length of 12 charecters | one Special Charecter | one number
+
+
+       
+        function genCustomPassword() {
+            var orginalText = (document.getElementById("customWord").value).toLowerCase();
+             var customWord = orginalText.split(" ").join("");
+            document.getElementById("body").style.backgroundImage = "url(twoo.jpg)"
+
+            var customArray = Array.from(customWord);
+
+            var randomchar = "!@#$%^&*";
+            var randomNumber = Math.floor(Math.random() * customArray.length); //special number
+            var randomNumber1 = Math.floor(Math.random() * randomchar.length); //special number
+            var randomNumber2 = Math.floor(Math.random() * 4);
+            var randomSpl = "" + randomchar[randomNumber1]; //special charecter
+            var built = ""; // custom password string
+            for (let i = 0; i < customArray.length; i++) {
+                if (randomNumber == i) {
+                    built = built + customArray[i].toUpperCase();
+                } else {
+                    built = built + customArray[i];
+                }
+            }
+            //switch pass
+            switch (randomNumber2) {
+                case 1:
+                    // code block
+                    customPassword = randomNumber1 + randomSpl + randomNumber + built;
+                    break;
+                case 2:
+                    // code block
+                    customPassword = built + randomNumber1 + randomSpl + randomNumber;
+                    break;
+                case 3:
+                    // code block
+                    customPassword = randomNumber + built + randomNumber1 + randomSpl;
+                    break;
+                case 4:
+                    // code block
+                    customPassword = randomSpl + randomNumber + built + randomNumber1;
+                    break;
+                    
+            }
+            document.getElementById("customPassword").value = customPassword;
+        }
+        // copy password
+        function copyCustomPassword() {
+            var copyText = document.getElementById("customPassword");
+            copyText.select();
+            copyText.setSelectionRange(0, 999);
+            document.execCommand("copy");
+            document.getElementById("customPassword").value = "";
+            document.getElementById("body").style.backgroundImage = "url(threee.jpg)";
+        }
+    </script>
+    <footer class="footer">
+        <span>Developed by: Vemuri Sai Srinivas </span>
+</footer>
+</body>
+
+</html>
