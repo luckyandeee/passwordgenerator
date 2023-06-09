@@ -178,7 +178,9 @@
 
        
         function genCustomPassword() {
-            var customWord = (document.getElementById("customWord").value).toLowerCase();
+            var orginaltext = (document. getElementById("customWord") . value) . toLowerCase ( ) ;
+            var customWord = orginaltext.split(“ “).join(“”);
+            
             document.getElementById("body").style.backgroundImage = "url(twoo.jpg)"
 
             var customArray = Array.from(customWord);
